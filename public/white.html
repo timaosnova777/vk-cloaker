@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigiSave — Цифровые сервисы со скидкой</title>
+  <meta name="description" content="Экономьте на цифровых подписках. Полезные советы, обзоры и лучшие предложения на стриминг, облако и приложения.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-icon { font-size: 26px; }
+    nav { display: flex; gap: 28px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--primary); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%);
+      padding: 80px 24px;
+      text-align: center;
+      color: white;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .hero p {
+      font-size: 18px;
+      opacity: .85;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .hero-btn {
+      display: inline-block;
+      background: white;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    }
+    .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,.2); }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 26px; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 13px; color: var(--muted); }
+
+    /* ARTICLES */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 60px 0; }
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-sub { color: var(--muted); margin-bottom: 32px; font-size: 15px; }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+    .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+    .article-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #e0e7ff, #bfdbfe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+    .article-body { padding: 20px; }
+    .article-tag {
+      display: inline-block;
+      background: #eff6ff;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .article-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+    .article-excerpt { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .article-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .article-date { font-size: 12px; color: var(--muted); }
+    .article-read {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* TIPS */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: box-shadow .2s;
+    }
+    .tip-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+    .tip-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .tip-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .tip-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      padding: 60px 24px;
+      text-align: center;
+      color: white;
+      border-radius: 24px;
+      margin: 0 24px 60px;
+    }
+    .cta-section h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+    .cta-section p { opacity: .8; margin-bottom: 28px; font-size: 16px; }
+
+    /* FOOTER */
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-logo { font-size: 20px; font-weight: 700; color: white; margin-bottom: 8px; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
+    .footer-links a { color: #64748b; text-decoration: none; font-size: 13px; transition: color .2s; }
+    .footer-links a:hover { color: white; }
+    .footer-copy { font-size: 12px; color: #475569; }
+
+    @media (max-width: 640px) {
+      nav { display: none; }
+      .stats-inner { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">💡</span> DigiSave
+    </a>
+    <nav>
+      <a href="#">Советы</a>
+      <a href="#">Обзоры</a>
+      <a href="#">Скидки</a>
+      <a href="#">О нас</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-badge">✨ Экономия на цифровых сервисах</div>
+  <h1>Платите меньше за<br>любимые подписки</h1>
+  <p>Актуальные советы, лайфхаки и лучшие способы сэкономить на стриминге, облаке и приложениях</p>
+  <a href="#articles" class="hero-btn">Читать советы →</a>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">47 000+</div>
+      <div class="stat-label">читателей</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">320+</div>
+      <div class="stat-label">статей и советов</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">до 80%</div>
+      <div class="stat-label">экономия на подписках</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2021</div>
+      <div class="stat-label">год основания</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="container">
+
+    <!-- ARTICLES -->
+    <section class="section" id="articles">
+      <h2 class="section-title">Популярные статьи</h2>
+      <p class="section-sub">Всё что нужно знать о цифровых подписках</p>
+
+      <div class="articles-grid">
+        <div class="article-card">
+          <div class="article-img">🎬</div>
+          <div class="article-body">
+            <span class="article-tag">Стриминг</span>
+            <h3 class="article-title">Как смотреть Netflix, Spotify и Disney+ в 3 раза дешевле</h3>
+            <p class="article-excerpt">Семейные подписки, студенческие скидки и легальные способы снизить стоимость любимых сервисов до минимума.</p>
+            <div class="article-footer">
+              <span class="article-date">28 апреля 2025</span>
+              <a href="#" class="article-read">Читать →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div class="article-img">☁️</div>
+          <div class="article-body">
+            <span class="article-tag">Облако</span>
+            <h3 class="article-title">Google One vs iCloud vs Яндекс.Диск: что выгоднее в 2025</h3>
+            <p class="article-excerpt">Сравниваем цены, возможности и бонусы облачных хранилищ. Где хранить файлы выгоднее всего?</p>
+            <div class="article-footer">
+              <span class="article-date">25 апреля 2025</span>
+              <a href="#" class="article-read">Читать →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div class="article-img">🎮</div>
+          <div class="article-body">
+            <span class="article-tag">Игры</span>
+            <h3 class="article-title">Game Pass, PS Plus или Nintendo: какой абонемент выгоднее</h3>
+            <p class="article-excerpt">Разбираем каждый игровой сервис по косточкам. Сколько игр, цена за одну и стоит ли оно того?</p>
+            <div class="article-footer">
+              <span class="article-date">22 апреля 2025</span>
+              <a href="#" class="article-read">Читать →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div class="article-img">🛡️</div>
+          <div class="article-body">
+            <span class="article-tag">Безопасность</span>
+            <h3 class="article-title">Лучшие бесплатные VPN в 2025: честный обзор без рекламы</h3>
+            <p class="article-excerpt">Тестировали 12 VPN на скорость, безопасность и честность. Вот что мы выяснили о каждом из них.</p>
+            <div class="article-footer">
+              <span class="article-date">19 апреля 2025</span>
+              <a href="#" class="article-read">Читать →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div class="article-img">📱</div>
+          <div class="article-body">
+            <span class="article-tag">Приложения</span>
+            <h3 class="article-title">10 приложений, за которые люди платят зря — есть бесплатные аналоги</h3>
+            <p class="article-excerpt">Canva, Adobe, Notion — у всех популярных платных приложений есть достойные бесплатные альтернативы.</p>
+            <div class="article-footer">
+              <span class="article-date">15 апреля 2025</span>
+              <a href="#" class="article-read">Читать →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-card">
+          <div class="article-img">💰</div>
+          <div class="article-body">
+            <span class="article-tag">Лайфхак</span>
+            <h3 class="article-title">Семейная подписка на 6 человек: как организовать и не поссориться</h3>
+            <p class="article-excerpt">Пошаговое руководство как организовать общий аккаунт, поровну разделить расходы и кому доверять доступ.</p>
+            <div class="article-footer">
+              <span class="article-date">10 апреля 2025</span>
+              <a href="#" class="article-read">Читать →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIPS -->
+    <section class="section">
+      <h2 class="section-title">Быстрые советы</h2>
+      <p class="section-sub">Практические лайфхаки которые работают прямо сейчас</p>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <div class="tip-icon">🔄</div>
+          <div>
+            <div class="tip-title">Меняй регион</div>
+            <div class="tip-text">В App Store и Google Play цены различаются в 2–5 раз в зависимости от страны аккаунта.</div>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">👨‍👩‍👧</div>
+          <div>
+            <div class="tip-title">Семейный план</div>
+            <div class="tip-text">Семейные подписки на 4–6 человек обходятся каждому участнику на 60–75% дешевле.</div>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">🎓</div>
+          <div>
+            <div class="tip-title">Студенческая скидка</div>
+            <div class="tip-text">Spotify, Adobe, Microsoft 365 дают скидки до 50% по студенческому email.</div>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">📅</div>
+          <div>
+            <div class="tip-title">Годовая подписка</div>
+            <div class="tip-text">Годовой план всегда дешевле ежемесячного — экономия в среднем 15–30%.</div>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">🎁</div>
+          <div>
+            <div class="tip-title">Пробный период</div>
+            <div class="tip-text">Используй пробные периоды грамотно — многие сервисы дают 30–90 дней бесплатно.</div>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">📊</div>
+          <div>
+            <div class="tip-title">Аудит подписок</div>
+            <div class="tip-text">Раз в квартал проверяй все свои подписки — в среднем люди забывают об 3–4 платных сервисах.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Хотите узнавать о скидках первыми?</h2>
+    <p>Подпишитесь на наш Telegram-канал — только актуальные акции без спама</p>
+    <a href="#" class="hero-btn" style="background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3)">
+      Подписаться на канал →
+    </a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">💡 DigiSave</div>
+    <p style="font-size:13px;margin-bottom:16px">Ваш гид по цифровой экономии</p>
+    <div class="footer-links">
+      <a href="#">Главная</a>
+      <a href="#">Статьи</a>
+      <a href="#">Советы</a>
+      <a href="#">Конфиденциальность</a>
+      <a href="#">Контакты</a>
+    </div>
+    <p class="footer-copy">© 2025 DigiSave. Все права защищены.</p>
+  </div>
+</footer>
+
+</body>
+</html>
