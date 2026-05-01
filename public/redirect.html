@@ -33,9 +33,25 @@
   <div class="spinner"></div>
   <p>Открываем бота...</p>
 
-  <!-- VK Pixel -->
+  <!-- Top.Mail.Ru / VK Реклама пиксель -->
+  <script type="text/javascript">
+    var _tmr = window._tmr || (window._tmr = []);
+    _tmr.push({id: "3763082", type: "pageView", start: (new Date()).getTime()});
+    // Событие конверсии — переход в бота
+    _tmr.push({id: "3763082", type: "reachGoal", goal: "start_bot"});
+    (function (d, w, id) {
+      if (d.getElementById(id)) return;
+      var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+      ts.src = "https://top-fwz1.mail.ru/js/code.js";
+      var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+      if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+    })(document, window, "tmr-code");
+  </script>
+  <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3763082;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+  <!-- /Top.Mail.Ru пиксель -->
+
+  <!-- VK Retargeting Pixel (опционально, если задан VK_PIXEL_ID) -->
   <script>
-    // Загружаем VK Pixel если задан ID
     if (window.VK_PIXEL_ID) {
       !function(){
         var t=document.createElement("script");
@@ -45,7 +61,6 @@
         t.onload=function(){
           VK.Retargeting.Init(window.VK_PIXEL_ID);
           VK.Retargeting.Hit();
-          // Событие "начало" — конверсия
           VK.Retargeting.Event("start_bot");
         };
         document.head.appendChild(t);
@@ -58,11 +73,11 @@
     var urlParams = new URLSearchParams(window.location.search);
     var source = urlParams.get('s') || urlParams.get('utm_source') || window.UTM || 'vkads';
 
-    // Редиректим в бота через 1.2 сек (дать пикселю время сработать)
+    // Редиректим в бота через 1.5 сек (дать пикселям время сработать)
     setTimeout(function() {
       var botLink = window.BOT_LINK || 'https://t.me/your_bot';
       window.location.href = botLink + '?start=' + source;
-    }, 1200);
+    }, 1500);
   </script>
 </body>
 </html>
