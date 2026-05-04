@@ -129,8 +129,18 @@
     </div>
     <div class="card">
       <div class="card-label">% Реальных</div>
-      <div class="card-val" style="color:var(--purple)" id="convVal">—</div>
+      <div class="card-val" style="color:var(--text)" id="convVal">—</div>
       <div class="card-sub">от всего трафика</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Переходов</div>
+      <div class="card-val" style="color:var(--yellow)" id="clickVal">—</div>
+      <div class="card-sub">в бота</div>
+    </div>
+    <div class="card">
+      <div class="card-label">CTR (в бота)</div>
+      <div class="card-val" style="color:var(--purple)" id="ctrVal">—</div>
+      <div class="card-sub">от реальных юзеров</div>
     </div>
   </div>
 
@@ -212,6 +222,8 @@
       document.getElementById('realVal').textContent = stats.real;
       document.getElementById('botVal').textContent = stats.bots;
       document.getElementById('convVal').textContent = stats.conversion;
+      document.getElementById('clickVal').textContent = stats.clicks || 0;
+      document.getElementById('ctrVal').textContent = stats.ctr || '0%';
       document.getElementById('lastUpdate').textContent = 'Обновлено: ' + new Date().toLocaleTimeString('ru');
 
       // Bar chart

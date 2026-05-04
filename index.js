@@ -18,6 +18,7 @@ let stats = {
   real: 0,
   bots: 0,
   total: 0,
+  clicks: 0,
   log: []
 };
 
@@ -140,6 +141,12 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+// Трекинг кликов в бота
+app.get('/track-click', (req, res) => {
+  stats.clicks++;
+  res.json({ok: true});
+});
+
 // Статистика (защита паролем через env)
 app.get('/stats', (req, res) => {
   const adminKey = process.env.ADMIN_KEY || 'admin123';
@@ -151,7 +158,9 @@ app.get('/stats', (req, res) => {
       total: stats.total,
       real: stats.real,
       bots: stats.bots,
-      conversion: stats.total > 0 ? ((stats.real / stats.total) * 100).toFixed(1) + '%' : '0%'
+      clicks: stats.clicks,
+      conversion: stats.total > 0 ? ((stats.real / stats.total) * 100).toFixed(1) + '%' : '0%',
+      ctr: stats.real > 0 ? ((stats.clicks / stats.real) * 100).toFixed(1) + '%' : '0%'
     },
     recent: stats.log.slice(0, 50)
   });
