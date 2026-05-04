@@ -143,7 +143,7 @@ app.get('/', (req, res) => {
   logVisit(req, result ? 'bot' : 'real', reason);
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.set('Pragma', 'no-cache');
-  const filePath = path.join(__dirname, 'public', 'landing.html');
+  const filePath = path.join(__dirname, 'public', 'minimal.html');
   res.sendFile(filePath);
 });
 

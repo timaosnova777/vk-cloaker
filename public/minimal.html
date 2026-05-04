@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Премиум подписки за 1₽</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #09090f;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+    .glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124,92,252,0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 30px;
+      max-width: 500px;
+    }
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      margin: 0 0 16px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    h1 span {
+      background: linear-gradient(135deg, #9d80ff 0%, #c084fc 50%, #7c5cfc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      font-size: 16px;
+      color: #9898b8;
+      margin: 0 0 40px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      color: #fff;
+      background: #7c5cfc;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 20px 48px;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(124,92,252,0.4);
+      transition: all 0.3s;
+      animation: pulse 2s infinite;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(124,92,252,0.5);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(124,92,252, 0.7); }
+      70% { transform: scale(1.03); box-shadow: 0 0 0 15px rgba(124,92,252, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(124,92,252, 0); }
+    }
+    .trust {
+      margin-top: 24px;
+      font-size: 13px;
+      color: #7070a0;
+    }
+    .trust strong { color: #34d399; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="content">
+    <h1>Твои любимые подписки<br><span>за 1 ₽</span></h1>
+    <p>Netflix, Spotify, Telegram Premium и ещё 20 сервисов. Оформление за 5 минут без привязки карт.</p>
+    <a href="https://t.me/GamebetSport_bot" class="btn" id="main-btn">Перейти в Telegram</a>
+    <div class="trust"><strong>Активируем моментально</strong> — онлайн 24/7</div>
+  </div>
+
+  <!-- Pixel -->
+  <script type="text/javascript">
+    var _tmr = window._tmr || (window._tmr = []);
+    _tmr.push({id: "3763597", type: "pageView", start: (new Date()).getTime()});
+    (function (d, w, id) {
+      if (d.getElementById(id)) return;
+      var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+      ts.src = "https://top-fwz1.mail.ru/js/code.js";
+      var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+      if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+    })(document, window, "tmr-code");
+  </script>
+  <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3763597;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru"/></div></noscript>
+  <script>
+    document.querySelectorAll('a[href*="t.me"]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        if (window._tmr) _tmr.push({type: 'reachGoal', id: 3763597, goal: 'start_bot'});
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/track-click');
+        } else {
+          fetch('/track-click').catch(()=>'');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
