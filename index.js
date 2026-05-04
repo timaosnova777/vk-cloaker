@@ -13,14 +13,34 @@ const VK_PIXEL_ID = process.env.VK_PIXEL_ID || '';
 const UTM_SOURCE = process.env.UTM_SOURCE || 'vkads';
 // =============================================
 
-// Логи статистики (в памяти, сбрасываются при рестарте)
-let stats = {
-  real: 0,
-  bots: 0,
-  total: 0,
-  clicks: 0,
+// Хранение статистики по дням
+const STATS_FILE = path.join(__dirname, 'stats.json');
+let statsDb = {
+  dates: {}, // "YYYY-MM-DD": { total, real, bots, clicks }
   log: []
 };
+
+if (fs.existsSync(STATS_FILE)) {
+  try {
+    statsDb = JSON.parse(fs.readFileSync(STATS_FILE, 'utf8'));
+  } catch(e) {}
+}
+
+function saveStats() {
+  fs.writeFileSync(STATS_FILE, JSON.stringify(statsDb));
+}
+
+function getTodayStr() {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().split('T')[0];
+}
+
+function initDate(dateStr) {
+  if (!statsDb.dates[dateStr]) {
+    statsDb.dates[dateStr] = { total: 0, real: 0, bots: 0, clicks: 0 };
+  }
+}
 
 // --- IP диапазоны модераторов / ботов ---
 // VK, Яндекс, Google, известные datacenter ranges
@@ -92,6 +112,9 @@ function isBot(req) {
 }
 
 function logVisit(req, type, reason) {
+  const dateStr = getTodayStr();
+  initDate(dateStr);
+
   const entry = {
     time: new Date().toISOString(),
     type,
@@ -100,11 +123,14 @@ function logVisit(req, type, reason) {
     ua: (req.headers['user-agent'] || '').substring(0, 80),
     utm: req.query.utm_source || req.query.source || '-',
   };
-  stats.log.unshift(entry);
-  if (stats.log.length > 200) stats.log.pop();
-  stats.total++;
-  if (type === 'real') stats.real++;
-  if (type === 'bot') stats.bots++;
+  statsDb.log.unshift(entry);
+  if (statsDb.log.length > 200) statsDb.log.pop();
+  
+  statsDb.dates[dateStr].total++;
+  if (type === 'real') statsDb.dates[dateStr].real++;
+  if (type === 'bot') statsDb.dates[dateStr].bots++;
+  
+  saveStats();
 }
 
 // =============================================
@@ -143,9 +169,44 @@ app.get('/admin', (req, res) => {
 
 // Трекинг кликов в бота
 app.all('/track-click', (req, res) => {
-  stats.clicks++;
+  const dateStr = getTodayStr();
+  initDate(dateStr);
+  statsDb.dates[dateStr].clicks++;
+  saveStats();
   res.json({ok: true});
 });
+
+function getStatsForPeriod(period) {
+  let result = { total: 0, real: 0, bots: 0, clicks: 0 };
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  const today = d.toISOString().split('T')[0];
+  
+  let validDates = [];
+  if (period === 'today') {
+    validDates.push(today);
+  } else if (period === 'yesterday') {
+    const yest = new Date(d);
+    yest.setDate(yest.getDate() - 1);
+    validDates.push(yest.toISOString().split('T')[0]);
+  } else if (period === 'week') {
+    for (let i = 0; i < 7; i++) {
+      const wd = new Date(d);
+      wd.setDate(wd.getDate() - i);
+      validDates.push(wd.toISOString().split('T')[0]);
+    }
+  }
+
+  for (const [dateStr, data] of Object.entries(statsDb.dates)) {
+    if (period === 'all' || validDates.includes(dateStr)) {
+      result.total += data.total || 0;
+      result.real += data.real || 0;
+      result.bots += data.bots || 0;
+      result.clicks += data.clicks || 0;
+    }
+  }
+  return result;
+}
 
 // Статистика (защита паролем через env)
 app.get('/stats', (req, res) => {
@@ -153,16 +214,20 @@ app.get('/stats', (req, res) => {
   if (req.query.key !== adminKey) {
     return res.status(403).json({ error: 'Forbidden' });
   }
+  
+  const period = req.query.period || 'all';
+  const s = getStatsForPeriod(period);
+  
   res.json({
     stats: {
-      total: stats.total,
-      real: stats.real,
-      bots: stats.bots,
-      clicks: stats.clicks,
-      conversion: stats.total > 0 ? ((stats.real / stats.total) * 100).toFixed(1) + '%' : '0%',
-      ctr: stats.real > 0 ? ((stats.clicks / stats.real) * 100).toFixed(1) + '%' : '0%'
+      total: s.total,
+      real: s.real,
+      bots: s.bots,
+      clicks: s.clicks,
+      conversion: s.total > 0 ? ((s.real / s.total) * 100).toFixed(1) + '%' : '0%',
+      ctr: s.real > 0 ? ((s.clicks / s.real) * 100).toFixed(1) + '%' : '0%'
     },
-    recent: stats.log.slice(0, 50)
+    recent: statsDb.log.slice(0, 50)
   });
 });
 

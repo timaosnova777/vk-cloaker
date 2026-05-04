@@ -107,7 +107,15 @@
       <h1>OneClick — Статистика</h1>
       <span id="lastUpdate">Загрузка...</span>
     </div>
-    <button class="refresh-btn" onclick="loadStats()">Обновить</button>
+    <div style="display:flex;gap:12px">
+      <select id="periodFilter" onchange="loadStats()" style="background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); padding:8px 12px; font-size:13px; font-family:inherit; outline:none; cursor:pointer;">
+        <option value="all">За всё время</option>
+        <option value="today">За сегодня</option>
+        <option value="yesterday">За вчера</option>
+        <option value="week">За неделю</option>
+      </select>
+      <button class="refresh-btn" onclick="loadStats()">Обновить</button>
+    </div>
   </div>
 
   <!-- CARDS -->
@@ -213,7 +221,8 @@
 
   async function loadStats() {
     try {
-      const r = await fetch('/stats?key=' + encodeURIComponent(adminKey));
+      const period = document.getElementById('periodFilter') ? document.getElementById('periodFilter').value : 'all';
+      const r = await fetch('/stats?key=' + encodeURIComponent(adminKey) + '&period=' + period);
       if (!r.ok) { showError('Неверный ключ или ошибка сервера'); return; }
       const data = await r.json();
       const { stats, recent } = data;
