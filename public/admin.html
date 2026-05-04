@@ -89,6 +89,7 @@
     .error-msg { color: var(--red); font-size: 14px; text-align: center; padding: 32px; }
     .loading { color: var(--muted); font-size: 14px; text-align: center; padding: 32px; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -154,12 +155,8 @@
 
   <!-- CHART -->
   <div class="chart-section">
-    <div class="chart-title">Последние 20 визитов</div>
-    <div class="bar-wrap" id="barChart"></div>
-    <div class="chart-legend">
-      <div class="legend-label"><div class="legend-dot" style="background:var(--purple)"></div>Реальный пользователь</div>
-      <div class="legend-label"><div class="legend-dot" style="background:var(--red)"></div>Бот / модератор</div>
-    </div>
+    <div class="chart-title">Трафик за последние 7 дней</div>
+    <canvas id="trafficChart" height="80"></canvas>
   </div>
 
   <!-- TABLE -->
@@ -235,18 +232,22 @@
       document.getElementById('ctrVal').textContent = stats.ctr || '0%';
       document.getElementById('lastUpdate').textContent = 'Обновлено: ' + new Date().toLocaleTimeString('ru');
 
-      // Bar chart
-      const chart = document.getElementById('barChart');
-      chart.innerHTML = '';
-      const maxH = 80;
-      const maxItems = recent.length;
-      [...recent].reverse().forEach(v => {
-        const bar = document.createElement('div');
-        bar.className = 'bar ' + v.type;
-        bar.style.height = (maxH / maxItems * 1.5) + 'px';
-        bar.setAttribute('data-tip', (v.type === 'real' ? '✓ ' : '✗ ') + parseUA(v.ua) + ' · ' + formatTime(v.time));
-        chart.appendChild(bar);
-      });
+      // Draw Chart.js
+      if (data.chart) {
+        const ctx = document.getElementById('trafficChart').getContext('2d');
+        if (window.chartInstance) window.chartInstance.destroy();
+        window.chartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.chart.labels,
+            datasets: [
+              { label: 'Переходы в бота', data: data.chart.clicks, borderColor: '#fbbf24', backgroundColor: 'rgba(251,191,36,0.1)', fill: true, tension: 0.4 },
+              { label: 'Реальные посетители', data: data.chart.real, borderColor: '#34d399', backgroundColor: 'transparent', borderDash: [5, 5], tension: 0.4 }
+            ]
+          },
+          options: { responsive: true, plugins: { legend: { labels: { color: '#9898b8' } } }, scales: { x: { ticks: { color: '#7070a0' }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#7070a0', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)', beginAtZero: true } } } }
+        });
+      }
 
       // Table
       const rows = recent.map(v => `

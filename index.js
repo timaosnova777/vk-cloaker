@@ -208,6 +208,24 @@ function getStatsForPeriod(period) {
   return result;
 }
 
+function getChartData() {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  let labels = [];
+  let clicks = [];
+  let real = [];
+  for (let i = 6; i >= 0; i--) {
+    const dTemp = new Date(d);
+    dTemp.setDate(dTemp.getDate() - i);
+    const dateStr = dTemp.toISOString().split('T')[0];
+    labels.push(dateStr.substring(5)); // MM-DD
+    const st = statsDb.dates[dateStr] || { clicks: 0, real: 0 };
+    clicks.push(st.clicks || 0);
+    real.push(st.real || 0);
+  }
+  return { labels, clicks, real };
+}
+
 // Статистика (защита паролем через env)
 app.get('/stats', (req, res) => {
   const adminKey = process.env.ADMIN_KEY || 'admin123';
@@ -227,6 +245,7 @@ app.get('/stats', (req, res) => {
       conversion: s.total > 0 ? ((s.real / s.total) * 100).toFixed(1) + '%' : '0%',
       ctr: s.real > 0 ? ((s.clicks / s.real) * 100).toFixed(1) + '%' : '0%'
     },
+    chart: getChartData(),
     recent: statsDb.log.slice(0, 50)
   });
 });
