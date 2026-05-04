@@ -114,8 +114,10 @@ function logVisit(req, type, reason) {
 app.get('/', (req, res) => {
   const { result, reason } = isBot(req);
   logVisit(req, result ? 'bot' : 'real', reason);
-  // Все видят нормальный лендинг — пользователь сам нажимает кнопку
-  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  const filePath = path.join(__dirname, 'public', 'landing.html');
+  res.sendFile(filePath);
 });
 
 // Принудительный редирект (на случай если JS не сработал)
