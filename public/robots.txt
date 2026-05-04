@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /stats
+Disallow: /go
+Disallow: /config.js
+
+Sitemap: https://web-production-e1e57.up.railway.app/sitemap.xml

@@ -131,6 +131,15 @@ app.get('/go', (req, res) => {
   res.redirect(`${TELEGRAM_BOT_LINK}?start=${source}`);
 });
 
+// Юридические страницы
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
 // Статистика (защита паролем через env)
 app.get('/stats', (req, res) => {
   const adminKey = process.env.ADMIN_KEY || 'admin123';
