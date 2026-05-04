@@ -414,7 +414,11 @@
   document.querySelectorAll('a[href*="t.me"]').forEach(function(el) {
     el.addEventListener('click', function() {
       if (window._tmr) _tmr.push({type: 'reachGoal', id: 3763597, goal: 'start_bot'});
-      fetch('/track-click').catch(()=>'');
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/track-click');
+      } else {
+        fetch('/track-click').catch(()=>'');
+      }
     });
   });
 </script>

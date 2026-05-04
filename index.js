@@ -142,7 +142,7 @@ app.get('/admin', (req, res) => {
 });
 
 // Трекинг кликов в бота
-app.get('/track-click', (req, res) => {
+app.all('/track-click', (req, res) => {
   stats.clicks++;
   res.json({ok: true});
 });
