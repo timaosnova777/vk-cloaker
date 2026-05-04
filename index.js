@@ -135,6 +135,11 @@ app.get('/terms', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'terms.html'));
 });
 
+// Красивая панель статистики
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 // Статистика (защита паролем через env)
 app.get('/stats', (req, res) => {
   const adminKey = process.env.ADMIN_KEY || 'admin123';

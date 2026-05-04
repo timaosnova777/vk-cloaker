@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OneClick — Статистика</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #09090f; --surface: #111120; --surface2: #18182a;
+      --border: rgba(255,255,255,0.07); --text: #eeeeff; --muted: #7070a0;
+      --purple: #7c5cfc; --green: #34d399; --red: #f87171; --yellow: #fbbf24;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 32px 24px; -webkit-font-smoothing: antialiased; }
+
+    /* LOGIN */
+    .login-wrap { max-width: 360px; margin: 15vh auto; text-align: center; }
+    .login-wrap h1 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .login-wrap p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .login-input {
+      width: 100%; padding: 13px 16px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: 15px; font-family: inherit; outline: none;
+      transition: border-color .2s; margin-bottom: 12px;
+    }
+    .login-input:focus { border-color: var(--purple); }
+    .login-btn {
+      width: 100%; padding: 13px; background: var(--purple); border: none; border-radius: 10px;
+      color: #fff; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer;
+      transition: opacity .2s;
+    }
+    .login-btn:hover { opacity: .85; }
+
+    /* DASHBOARD */
+    .dashboard { max-width: 1100px; margin: 0 auto; display: none; }
+    .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .top-bar h1 { font-size: 20px; font-weight: 800; }
+    .top-bar span { font-size: 13px; color: var(--muted); }
+    .refresh-btn {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 13px; font-weight: 600; padding: 8px 16px;
+      cursor: pointer; font-family: inherit; transition: border-color .2s;
+    }
+    .refresh-btn:hover { border-color: var(--purple); }
+
+    /* CARDS */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 28px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; }
+    .card-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 8px; }
+    .card-val { font-size: 36px; font-weight: 800; letter-spacing: -.02em; }
+    .card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* BAR CHART */
+    .chart-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 28px; }
+    .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+    .bar-wrap { display: flex; align-items: flex-end; gap: 4px; height: 80px; }
+    .bar { flex: 1; border-radius: 4px 4px 0 0; min-height: 4px; transition: opacity .2s; cursor: default; position: relative; }
+    .bar:hover::after {
+      content: attr(data-tip); position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+      background: #222; color: #fff; font-size: 11px; padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+    }
+    .bar.real { background: var(--purple); }
+    .bar.bot { background: var(--red); }
+    .chart-legend { display: flex; gap: 16px; margin-top: 10px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+    .legend-label { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+    /* TABLE */
+    .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .table-header { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .table-header span { font-size: 14px; font-weight: 700; }
+    .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; }
+    .badge-real { background: rgba(52,211,153,.15); color: var(--green); }
+    .badge-bot { background: rgba(248,113,113,.15); color: var(--red); }
+
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 12px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { font-size: 13px; padding: 12px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+    .type-badge { display: inline-flex; align-items: center; gap: 5px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-real { background: var(--green); }
+    .dot-bot { background: var(--red); }
+    .ua-cell { color: var(--muted); font-size: 12px; max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .time-cell { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .ip-cell { font-family: monospace; font-size: 12px; color: var(--muted); }
+
+    .error-msg { color: var(--red); font-size: 14px; text-align: center; padding: 32px; }
+    .loading { color: var(--muted); font-size: 14px; text-align: center; padding: 32px; }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <h1>OneClick Stats</h1>
+  <p>Введите ключ доступа</p>
+  <input class="login-input" type="password" id="keyInput" placeholder="Admin key" />
+  <button class="login-btn" onclick="doLogin()">Войти</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="top-bar">
+    <div>
+      <h1>OneClick — Статистика</h1>
+      <span id="lastUpdate">Загрузка...</span>
+    </div>
+    <button class="refresh-btn" onclick="loadStats()">Обновить</button>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Всего визитов</div>
+      <div class="card-val" id="totalVal">—</div>
+      <div class="card-sub">за всё время</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Реальных</div>
+      <div class="card-val" style="color:var(--green)" id="realVal">—</div>
+      <div class="card-sub">пользователей</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ботов</div>
+      <div class="card-val" style="color:var(--red)" id="botVal">—</div>
+      <div class="card-sub">модераторов/сканеров</div>
+    </div>
+    <div class="card">
+      <div class="card-label">% Реальных</div>
+      <div class="card-val" style="color:var(--purple)" id="convVal">—</div>
+      <div class="card-sub">от всего трафика</div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-section">
+    <div class="chart-title">Последние 20 визитов</div>
+    <div class="bar-wrap" id="barChart"></div>
+    <div class="chart-legend">
+      <div class="legend-label"><div class="legend-dot" style="background:var(--purple)"></div>Реальный пользователь</div>
+      <div class="legend-label"><div class="legend-dot" style="background:var(--red)"></div>Бот / модератор</div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-section">
+    <div class="table-header">
+      <span>Последние визиты</span>
+    </div>
+    <div id="tableWrap"><div class="loading">Загрузка...</div></div>
+  </div>
+</div>
+
+<script>
+  let adminKey = '';
+
+  function doLogin() {
+    adminKey = document.getElementById('keyInput').value.trim();
+    if (!adminKey) return;
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadStats();
+  }
+
+  document.getElementById('keyInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  // Check URL param
+  const urlKey = new URLSearchParams(location.search).get('key');
+  if (urlKey) {
+    adminKey = urlKey;
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadStats();
+  }
+
+  function parseUA(ua) {
+    if (!ua) return '—';
+    if (/iPhone|iPad/i.test(ua)) return 'iOS';
+    if (/Android/i.test(ua)) {
+      const m = ua.match(/Android[^;]*;[^)]*?([A-Z]{2,}[\w\-]+)/);
+      return 'Android' + (m ? ' ' + m[1].substring(0,10) : '');
+    }
+    if (/Windows/i.test(ua)) return 'Windows';
+    if (/Macintosh|Mac OS/i.test(ua)) return 'macOS';
+    if (/Linux/i.test(ua)) return 'Linux';
+    if (/python/i.test(ua)) return 'python-bot';
+    return ua.substring(0, 30);
+  }
+
+  function formatTime(isoStr) {
+    const d = new Date(isoStr);
+    const now = new Date();
+    const diff = Math.floor((now - d) / 1000);
+    if (diff < 60) return diff + ' сек назад';
+    if (diff < 3600) return Math.floor(diff/60) + ' мин назад';
+    if (diff < 86400) return Math.floor(diff/3600) + ' ч назад';
+    return d.toLocaleDateString('ru', {day:'2-digit', month:'2-digit'}) + ' ' + d.toLocaleTimeString('ru', {hour:'2-digit', minute:'2-digit'});
+  }
+
+  async function loadStats() {
+    try {
+      const r = await fetch('/stats?key=' + encodeURIComponent(adminKey));
+      if (!r.ok) { showError('Неверный ключ или ошибка сервера'); return; }
+      const data = await r.json();
+      const { stats, recent } = data;
+
+      document.getElementById('totalVal').textContent = stats.total;
+      document.getElementById('realVal').textContent = stats.real;
+      document.getElementById('botVal').textContent = stats.bots;
+      document.getElementById('convVal').textContent = stats.conversion;
+      document.getElementById('lastUpdate').textContent = 'Обновлено: ' + new Date().toLocaleTimeString('ru');
+
+      // Bar chart
+      const chart = document.getElementById('barChart');
+      chart.innerHTML = '';
+      const maxH = 80;
+      const maxItems = recent.length;
+      [...recent].reverse().forEach(v => {
+        const bar = document.createElement('div');
+        bar.className = 'bar ' + v.type;
+        bar.style.height = (maxH / maxItems * 1.5) + 'px';
+        bar.setAttribute('data-tip', (v.type === 'real' ? '✓ ' : '✗ ') + parseUA(v.ua) + ' · ' + formatTime(v.time));
+        chart.appendChild(bar);
+      });
+
+      // Table
+      const rows = recent.map(v => `
+        <tr>
+          <td class="time-cell">${formatTime(v.time)}</td>
+          <td>
+            <span class="type-badge">
+              <span class="dot dot-${v.type}"></span>
+              ${v.type === 'real' ? '<span class="badge badge-real">Пользователь</span>' : '<span class="badge badge-bot">Бот</span>'}
+            </span>
+          </td>
+          <td class="ua-cell" title="${(v.ua||'').replace(/"/g,'')}">${parseUA(v.ua)}</td>
+          <td class="ip-cell">${v.ip || '—'}</td>
+          <td class="ua-cell">${v.reason || '—'}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('tableWrap').innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Время</th>
+              <th>Тип</th>
+              <th>Устройство</th>
+              <th>IP</th>
+              <th>Причина</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    } catch(e) {
+      showError('Ошибка загрузки: ' + e.message);
+    }
+  }
+
+  function showError(msg) {
+    document.getElementById('tableWrap').innerHTML = '<div class="error-msg">' + msg + '</div>';
+  }
+
+  // Auto-refresh every 30 sec
+  setInterval(loadStats, 30000);
+</script>
+</body>
+</html>
