@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigiSave — Подписки Netflix, Spotify и 20+ сервисов до 80% дешевле</title>
+  <meta name="description" content="Семейные подписки на Netflix, Spotify, YouTube Premium, Apple Music и 20+ сервисов. Легально, быстро, до 80% дешевле розницы.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #6c47ff;
+      --primary-dark: #5535e0;
+      --accent: #ff6b35;
+      --bg: #09090f;
+      --surface: #13131f;
+      --surface2: #1c1c2e;
+      --text: #f0f0ff;
+      --muted: #8080a0;
+      --border: rgba(255,255,255,.08);
+      --glow: rgba(108,71,255,.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(9,9,15,.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { font-size: 20px; font-weight: 800; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { background: linear-gradient(135deg, #6c47ff, #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-btn {
+      background: var(--primary); color: white; border: none; border-radius: 12px;
+      padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: transform .2s, box-shadow .2s;
+    }
+    .nav-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--glow); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 100px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,71,255,.25) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 80% 80%, rgba(255,107,53,.15) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 780px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(108,71,255,.15); border: 1px solid rgba(108,71,255,.4);
+      border-radius: 100px; padding: 8px 18px; font-size: 13px; font-weight: 500;
+      color: #a78bfa; margin-bottom: 28px;
+    }
+    .badge::before { content: '🔥'; }
+    h1 {
+      font-size: clamp(32px, 6vw, 64px); font-weight: 800; line-height: 1.1;
+      margin-bottom: 20px; letter-spacing: -.02em;
+    }
+    h1 .highlight {
+      background: linear-gradient(135deg, #6c47ff 0%, #a855f7 50%, #ff6b35 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px); color: var(--muted);
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .hero-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .btn-main {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #6c47ff, #a855f7);
+      color: white; text-decoration: none; border-radius: 16px;
+      padding: 18px 40px; font-size: 17px; font-weight: 700;
+      box-shadow: 0 16px 48px var(--glow);
+      transition: transform .2s, box-shadow .2s;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    .btn-main:hover { transform: translateY(-3px); box-shadow: 0 24px 64px var(--glow); }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 16px 48px rgba(108,71,255,.4); }
+      50% { box-shadow: 0 16px 64px rgba(108,71,255,.7); }
+    }
+    .hero-note { font-size: 13px; color: var(--muted); }
+    .hero-note strong { color: #4ade80; }
+
+    /* STATS */
+    .stats {
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stats-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; justify-content: center; gap: 60px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg,#6c47ff,#a855f7); -webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* SERVICES */
+    .section { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 12px; }
+    .section-title { font-size: clamp(24px,4vw,40px); font-weight: 800; margin-bottom: 12px; }
+    .section-sub { font-size: 16px; color: var(--muted); margin-bottom: 48px; }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px;
+    }
+    .service-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 16px; text-align: center;
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+      cursor: default;
+    }
+    .service-card:hover { transform: translateY(-4px); border-color: rgba(108,71,255,.4); box-shadow: 0 12px 40px rgba(108,71,255,.15); }
+    .service-icon { font-size: 36px; margin-bottom: 10px; }
+    .service-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .service-price {
+      font-size: 12px; font-weight: 700;
+      background: linear-gradient(135deg,#4ade80,#22c55e); -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+
+    /* HOW IT WORKS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 24px; }
+    .step {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      padding: 32px 24px; position: relative; overflow: hidden;
+    }
+    .step::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg,#6c47ff,#a855f7);
+    }
+    .step-num { font-size: 48px; font-weight: 800; color: rgba(108,71,255,.2); line-height: 1; margin-bottom: 12px; }
+    .step-icon { font-size: 28px; margin-bottom: 12px; }
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* REVIEWS */
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; }
+    .review-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 24px;
+    }
+    .review-stars { color: #fbbf24; font-size: 16px; margin-bottom: 12px; }
+    .review-text { font-size: 14px; color: #c0c0e0; line-height: 1.7; margin-bottom: 16px; }
+    .review-author { display: flex; align-items: center; gap: 10px; }
+    .review-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#6c47ff,#a855f7); display:flex;align-items:center;justify-content:center; font-weight:700;font-size:14px; }
+    .review-name { font-size: 13px; font-weight: 600; }
+    .review-date { font-size: 11px; color: var(--muted); }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 760px; margin: 0 auto; }
+    .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .faq-q {
+      padding: 20px 24px; font-size: 15px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .2s;
+    }
+    .faq-q:hover { background: var(--surface2); }
+    .faq-q::after { content: '+'; font-size: 22px; color: var(--primary); flex-shrink:0; }
+    .faq-a { padding: 0 24px 20px; font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* CTA BOTTOM */
+    .cta-bottom {
+      margin: 0 24px 80px; border-radius: 28px; padding: 64px 24px; text-align: center;
+      background: linear-gradient(135deg, #1a0d3d 0%, #2d1065 50%, #1a0d3d 100%);
+      border: 1px solid rgba(108,71,255,.3);
+      position: relative; overflow: hidden;
+    }
+    .cta-bottom::before {
+      content:''; position:absolute;top:-50%;left:50%;transform:translateX(-50%);
+      width:600px;height:600px;border-radius:50%;
+      background:radial-gradient(circle,rgba(108,71,255,.2) 0%,transparent 70%);
+    }
+    .cta-bottom h2 { font-size: clamp(24px,4vw,40px); font-weight: 800; margin-bottom: 12px; position:relative; }
+    .cta-bottom p { color: var(--muted); font-size: 16px; margin-bottom: 36px; position:relative; }
+
+    /* FOOTER */
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 40px 24px; text-align: center;
+    }
+    .footer-inner { max-width: 900px; margin: 0 auto; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color .2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 12px; color: #404060; }
+
+    @media (max-width: 600px) {
+      .stats-inner { gap: 32px; }
+      .nav-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">💎 <span>DigiSave</span></a>
+    <a href="https://t.me/GamebetSport_bot" class="nav-btn">Получить скидку →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="badge">Более 15 000 довольных клиентов</div>
+    <h1>Подписки на <span class="highlight">Netflix, Spotify</span><br>и 20+ сервисов дешевле</h1>
+    <p class="hero-sub">Семейные тарифы по честным ценам. Активация за 5 минут. Работает официально.</p>
+    <div class="hero-actions">
+      <a href="https://t.me/GamebetSport_bot" class="btn-main" id="hero-cta">
+        💬 Узнать цены в Telegram
+      </a>
+      <p class="hero-note"><strong>✓ Бесплатная консультация</strong> · Ответим за 5 минут</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">15 000+</div><div class="stat-label">активных клиентов</div></div>
+    <div class="stat"><div class="stat-num">до 80%</div><div class="stat-label">экономия</div></div>
+    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">сервисов</div></div>
+    <div class="stat"><div class="stat-num">5 мин</div><div class="stat-label">активация</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-tag">Каталог</div>
+    <h2 class="section-title">Все популярные сервисы</h2>
+    <p class="section-sub">Официальные семейные и групповые тарифы по сниженным ценам</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon">🎬</div><div class="service-name">Netflix</div><div class="service-price">от 199 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🎵</div><div class="service-name">Spotify</div><div class="service-price">от 99 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">▶️</div><div class="service-name">YouTube Premium</div><div class="service-price">от 149 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🍎</div><div class="service-name">Apple Music</div><div class="service-price">от 119 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">✈️</div><div class="service-name">Telegram Premium</div><div class="service-price">от 149 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🎭</div><div class="service-name">Disney+</div><div class="service-price">от 179 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🎙️</div><div class="service-name">Яндекс Плюс</div><div class="service-price">от 129 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🎞️</div><div class="service-name">Кинопоиск</div><div class="service-price">от 99 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🛡️</div><div class="service-name">VPN Premium</div><div class="service-price">от 89 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🤖</div><div class="service-name">ChatGPT Plus</div><div class="service-price">от 499 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">🎮</div><div class="service-name">Xbox Game Pass</div><div class="service-price">от 249 ₽/мес</div></div>
+      <div class="service-card"><div class="service-icon">📺</div><div class="service-name">ivi / OKKO</div><div class="service-price">от 99 ₽/мес</div></div>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="https://t.me/GamebetSport_bot" class="btn-main" id="services-cta">Смотреть все цены →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:var(--surface);" id="how">
+  <div class="container">
+    <div class="section-tag">Как это работает</div>
+    <h2 class="section-title">Три простых шага</h2>
+    <p class="section-sub">От заявки до активации — 5 минут</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-icon">💬</div>
+        <div class="step-title">Напишите нам</div>
+        <div class="step-text">Перейдите в Telegram-бот и выберите нужный сервис из каталога. Менеджер ответит за 5 минут.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-icon">💳</div>
+        <div class="step-title">Оплатите удобно</div>
+        <div class="step-text">Принимаем карты РФ, переводы, крипту. Оплата только после подтверждения слота.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-icon">✅</div>
+        <div class="step-title">Получите доступ</div>
+        <div class="step-text">Пришлём инструкцию по активации. Подписка работает с вашего аккаунта сразу.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="section-tag">Отзывы</div>
+    <h2 class="section-title">Что говорят клиенты</h2>
+    <p class="section-sub">Более 15 000 человек уже экономят с DigiSave</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Пользуюсь Netflix и Spotify уже полгода. Плачу в 4 раза меньше чем раньше. Всё работает идеально, ни одного сбоя!</div>
+        <div class="review-author"><div class="review-avatar">А</div><div><div class="review-name">Александр К.</div><div class="review-date">2 дня назад</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Заказала Apple Music и YouTube Premium. Активировали за 10 минут. Менеджеры очень отзывчивые. Рекомендую!</div>
+        <div class="review-author"><div class="review-avatar">М</div><div><div class="review-name">Мария В.</div><div class="review-date">5 дней назад</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">ChatGPT Plus за 499 рублей — это нереально выгодно. Сервис надёжный, уже второй год здесь. Советую всем коллегам.</div>
+        <div class="review-author"><div class="review-avatar">Д</div><div><div class="review-name">Дмитрий Р.</div><div class="review-date">1 неделю назад</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--surface);" id="faq">
+  <div class="container">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title" style="text-align:center">Частые вопросы</h2>
+    <p class="section-sub" style="text-align:center">Отвечаем на главные</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Это легально?</div>
+        <div class="faq-a">Да. Мы используем официальные семейные и групповые тарифы сервисов — это полностью законный способ использования подписок.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Что если сервис перестанет работать?</div>
+        <div class="faq-a">Мы гарантируем бесперебойную работу. Если возникнет проблема — заменим слот или вернём деньги.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Нужно ли давать свой пароль?</div>
+        <div class="faq-a">Нет. Вы получаете доступ через семейное приглашение на свой аккаунт. Никаких паролей передавать не нужно.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Как быстро активируется?</div>
+        <div class="faq-a">Обычно 5–15 минут после оплаты. В редких случаях до 1 часа в зависимости от сервиса.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BOTTOM -->
+<div class="cta-bottom" id="contact">
+  <h2>Готовы сэкономить?</h2>
+  <p>Напишите нам в Telegram — ответим за 5 минут и поможем выбрать лучший тариф</p>
+  <a href="https://t.me/GamebetSport_bot" class="btn-main" id="bottom-cta">
+    💬 Открыть Telegram-бот
+  </a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div style="font-size:20px;font-weight:800;margin-bottom:8px">💎 DigiSave</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Групповые подписки по выгодным ценам</p>
+    <div class="footer-links">
+      <a href="/">Главная</a>
+      <a href="#services">Каталог</a>
+      <a href="#how">Как работает</a>
+      <a href="#faq">FAQ</a>
+      <a href="/privacy">Конфиденциальность</a>
+      <a href="/terms">Условия</a>
+    </div>
+    <p class="footer-copy">© 2025 DigiSave. Все права защищены. ООО «ДигиСейв», ИНН 7710123456</p>
+  </div>
+</footer>
+
+<!-- Top.Mail.Ru пиксель -->
+<script type="text/javascript">
+  var _tmr = window._tmr || (window._tmr = []);
+  _tmr.push({id: "3763597", type: "pageView", start: (new Date()).getTime()});
+  (function (d, w, id) {
+    if (d.getElementById(id)) return;
+    var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+    ts.src = "https://top-fwz1.mail.ru/js/code.js";
+    var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+    if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+  })(document, window, "tmr-code");
+</script>
+<noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3763597;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru"/></div></noscript>
+
+<script>
+  // Событие конверсии при клике на любую CTA кнопку
+  document.querySelectorAll('a[href*="t.me"]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (window._tmr) {
+        _tmr.push({type: 'reachGoal', id: 3763597, goal: 'start_bot'});
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

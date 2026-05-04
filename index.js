@@ -110,19 +110,12 @@ function logVisit(req, type, reason) {
 // МАРШРУТЫ
 // =============================================
 
-// Главная — клоакинг
+// Главная — лендинг для всех (VK-compliant, без авто-редиректа)
 app.get('/', (req, res) => {
   const { result, reason } = isBot(req);
-
-  if (result) {
-    // МОДЕРАТОР/БОТ → белая страница
-    logVisit(req, 'bot', reason);
-    res.sendFile(path.join(__dirname, 'public', 'white.html'));
-  } else {
-    // РЕАЛЬНЫЙ ПОЛЬЗОВАТЕЛЬ → редирект в бота
-    logVisit(req, 'real', reason);
-    res.sendFile(path.join(__dirname, 'public', 'redirect.html'));
-  }
+  logVisit(req, result ? 'bot' : 'real', reason);
+  // Все видят нормальный лендинг — пользователь сам нажимает кнопку
+  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
 });
 
 // Принудительный редирект (на случай если JS не сработал)
