@@ -149,9 +149,10 @@
     }
     .svc:hover { border-color: rgba(124,92,252,0.4); transform: translateY(-3px); }
     .svc-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
-    .svc-price { font-size: 13px; color: var(--green); font-weight: 500; }
-    .svc-dot {
-      width: 32px; height: 32px; border-radius: 8px; margin: 0 auto 12px;
+    .svc-price { font-size: 12px; color: var(--green); font-weight: 600; }
+    .svc-logo {
+      width: 40px; height: 40px; margin: 0 auto 12px; display: block;
+      object-fit: contain; border-radius: 10px;
     }
 
     /* ── STEPS ── */
@@ -265,12 +266,12 @@
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <div class="tag">Официальные семейные тарифы</div>
-    <h1>Подписки на любимые<br><span class="gradient-text">сервисы дешевле</span></h1>
-    <p class="hero-sub">Netflix, Spotify, YouTube Premium и 20+ платформ. До 80% ниже розничной цены. Без рисков.</p>
+    <div class="tag">Специальное предложение</div>
+    <h1>Первый месяц<br><span class="gradient-text">всего за 1 ₽</span></h1>
+    <p class="hero-sub">Netflix, Spotify, YouTube Premium и 20+ сервисов. Попробуйте любую подписку за один рубль.</p>
     <div class="hero-cta">
-      <a href="https://t.me/GamebetSport_bot" class="btn btn-lg" id="hero-main-cta">Узнать цены в Telegram</a>
-      <p class="hero-trust"><strong>Бесплатная консультация</strong> — ответим за 5 минут</p>
+      <a href="https://t.me/GamebetSport_bot" class="btn btn-lg" id="hero-main-cta">Получить за 1 ₽ в Telegram</a>
+      <p class="hero-trust"><strong>Активация за 5 минут</strong> — ответим сразу</p>
     </div>
   </div>
 </section>
@@ -278,9 +279,9 @@
 <!-- NUMBERS -->
 <div class="numbers">
   <div class="numbers-inner">
-    <div class="number-item"><span class="number-val">15 000+</span><span class="number-label">активных клиентов</span></div>
-    <div class="number-item"><span class="number-val">до 80%</span><span class="number-label">экономия на подписках</span></div>
+    <div class="number-item"><span class="number-val">1 ₽</span><span class="number-label">первый месяц любого сервиса</span></div>
     <div class="number-item"><span class="number-val">20+</span><span class="number-label">доступных сервисов</span></div>
+    <div class="number-item"><span class="number-val">15 000+</span><span class="number-label">активных клиентов</span></div>
     <div class="number-item"><span class="number-val">5 мин</span><span class="number-label">время активации</span></div>
   </div>
 </div>
@@ -290,21 +291,21 @@
   <div class="section-header">
     <div class="tag">Каталог</div>
     <h2>Все популярные сервисы</h2>
-    <p>Групповые тарифы с гарантией бесперебойной работы</p>
+    <p>Первый месяц — 1 ₽. Далее по выгодному тарифу.</p>
   </div>
   <div class="services-grid">
-    <div class="svc"><div class="svc-dot" style="background:#e50914"></div><div class="svc-name">Netflix</div><div class="svc-price">от 199 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#1db954"></div><div class="svc-name">Spotify</div><div class="svc-price">от 99 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#ff0000"></div><div class="svc-name">YouTube Premium</div><div class="svc-price">от 149 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#fa57c1"></div><div class="svc-name">Apple Music</div><div class="svc-price">от 119 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#2aabee"></div><div class="svc-name">Telegram Premium</div><div class="svc-price">от 149 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#113ccf"></div><div class="svc-name">Disney+</div><div class="svc-price">от 179 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#ffcc00"></div><div class="svc-name">Яндекс Плюс</div><div class="svc-price">от 129 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#f60"></div><div class="svc-name">Кинопоиск</div><div class="svc-price">от 99 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#10a37f"></div><div class="svc-name">ChatGPT Plus</div><div class="svc-price">от 499 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#107c10"></div><div class="svc-name">Xbox Game Pass</div><div class="svc-price">от 249 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#e5002b"></div><div class="svc-name">ivi / OKKO</div><div class="svc-price">от 99 ₽/мес</div></div>
-    <div class="svc"><div class="svc-dot" style="background:#7c5cfc"></div><div class="svc-name">И ещё 10+</div><div class="svc-price">спросите нас</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/netflix/e50914" alt="Netflix"><div class="svc-name">Netflix</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/spotify/1db954" alt="Spotify"><div class="svc-name">Spotify</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/youtube/ff0000" alt="YouTube"><div class="svc-name">YouTube Premium</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/applemusic/fc3c44" alt="Apple Music"><div class="svc-name">Apple Music</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/telegram/26a5e4" alt="Telegram"><div class="svc-name">Telegram Premium</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/disneyplus/113ccf" alt="Disney+"><div class="svc-name">Disney+</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/openai/10a37f" alt="ChatGPT"><div class="svc-name">ChatGPT Plus</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/xbox/107c10" alt="Xbox"><div class="svc-name">Xbox Game Pass</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/soundcloud/ff5500" alt="SoundCloud"><div class="svc-name">SoundCloud Go+</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/duolingo/58cc02" alt="Duolingo"><div class="svc-name">Duolingo Plus</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc"><img class="svc-logo" src="https://cdn.simpleicons.org/nordvpn/4687ff" alt="NordVPN"><div class="svc-name">NordVPN</div><div class="svc-price">1 ₽ первый месяц</div></div>
+    <div class="svc" style="border-color:rgba(124,92,252,0.3)"><img class="svc-logo" src="https://cdn.simpleicons.org/telegram/7c5cfc" alt="More"><div class="svc-name">И ещё 10+</div><div class="svc-price">спросите нас</div></div>
   </div>
   <div style="text-align:center;margin-top:40px">
     <a href="https://t.me/GamebetSport_bot" class="btn btn-lg" id="catalog-cta">Смотреть все цены</a>
@@ -369,9 +370,9 @@
 <!-- CTA BLOCK -->
 <div style="padding:0 32px">
   <div class="cta-block">
-    <h2>Готовы начать экономить?</h2>
-    <p>Напишите нам — подберём оптимальный тариф и ответим на все вопросы</p>
-    <a href="https://t.me/GamebetSport_bot" class="btn btn-lg" id="bottom-cta">Написать в Telegram</a>
+    <h2>Попробуйте первый месяц за 1 ₽</h2>
+    <p>Выберите сервис, напишите нам — и получите доступ сегодня</p>
+    <a href="https://t.me/GamebetSport_bot" class="btn btn-lg" id="bottom-cta">Начать за 1 ₽ в Telegram</a>
   </div>
 </div>
 
